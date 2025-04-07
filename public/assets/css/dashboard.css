@@ -1,0 +1,85 @@
+.dropdown-item i {
+    margin-right: 0.8rem; 
+}
+
+.send-button {
+    background-color: #007BFF;
+    /* Warna latar belakang biru */
+    color: white;
+    /* Warna teks putih */
+    border: none;
+    /* Hapus batas */
+    padding: 10px 15px;
+    /* Padding */
+    font-size: 14px;
+    /* Ukuran font */
+    margin-left: 5px;
+    /* Margin kiri */
+    border-radius: 5px;
+    /* Sudut membulat */
+    cursor: pointer;
+    /* Ubah kursor saat hover */
+}
+
+.add-report {
+    background-color: green;
+    /* Warna latar belakang biru */
+    color: white;
+    /* Warna teks putih */
+    border: none;
+    /* Hapus batas */
+    padding: 10px 15px;
+    /* Padding */
+    font-size: 14px;
+    /* Ukuran font */
+    margin-left: 5px;
+    /* Margin kiri */
+    border-radius: 5px;
+    /* Sudut membulat */
+    cursor: pointer;
+    /* Ubah kursor saat hover */
+}
+
+.add-report:hover {
+    background-color: greenyellow;
+    color: green;
+}
+
+.send-button:hover {
+    background-color: #0056b3;
+    /* Warna latar belakang saat hover */
+}
+
+.custom-modal{
+    max-width: 800px;
+}
+
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: #243642; /* Light background for the sidebar */
+    padding: 20px;
+}
+
+.sidebar{
+    color: white;
+}
+
+#item-bar{
+    text-decoration: none;
+    color: gray;
+}
+
+#item-bar:hover{
+    color: white;
+}
+
+.content {
+    margin-left: 250px; /* Adjust content margin to fit sidebar */
+    padding: 20px;
+    margin-right: 100px;
+}

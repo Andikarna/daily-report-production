@@ -3,14 +3,23 @@
 @section('title', 'Update Laporan')
 
 @section('content')
-    <div class="container mt-4">
-        <h3 class="mb-4">Detail Laporan Produksi</h3>
+    <div class="container">
+        <div class="bg-white shadow py-3 px-4 gap-3 rounded mb-2 d-flex align-items-center">
+            <div class="col-auto">
+                <a href="{{ url()->previous() }}" class="btn btn-link text-decoration-none p-0">
+                    <i class="bi bi-arrow-left fs-4 fw-bold text-dark"></i>
+                </a>
+            </div>
+            
+            <h5>Detail Laporan Produksi</h5>
+        </div>
 
-        <!-- Informasi Utama Report_Production -->
-        <div class="card mb-4">
+        <div class="bg-white py-2 px-2 card rounded shadow mb-2">
+
             <div class="card-header">
                 <h5>Informasi Laporan</h5>
             </div>
+
             <div class="card-body">
                 <p><strong>Operator :</strong> {{ $report->division->name }}</p>
                 <p><strong>Leader :</strong> {{ $report->leader->name }}</p>
@@ -21,7 +30,7 @@
         </div>
 
         <!-- Tabel Report_Detail_Production -->
-        <div class="card mb-4">
+        <div class="bg-white py-2 px-2 shadow rounded card mb-4 shadow">
             <div class="card-header">
                 <h5>Detail Produksi</h5>
             </div>
@@ -80,8 +89,7 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center">
-          <a href="{{ route('report_approval') }}" class="btn btn-secondary">Kembali</a>
+        <div class="d-flex justify-content-end align-items-center">
           <form action="{{ route('report_approve', ['id' => $report->id]) }}" method="POST">
               @csrf
               <button type="submit" class="btn btn-success">Approve</button>

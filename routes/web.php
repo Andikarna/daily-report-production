@@ -51,7 +51,8 @@ Route::get('/production-monthly/generate/{bulan}', action: [ProductionController
 Route::get('/monitoringGroup', action: [MonitoringController::class, 'index'])->name(name: 'monitoringGroup')->middleware(CekLogin::class);
 Route::get('/monitoringGroup/generate/{bulan}', action: [MonitoringController::class, 'generate'])->name(name: 'generateDailyAchievement')->middleware(CekLogin::class);
 
-Route::get('/dashboard/admin', action: [DashboardController::class, 'admin'])->name(name: 'dashboardadmin')->middleware(CekLogin::class);
+Route::get('/dashboard/admin', action: [DashboardController::class, 'admin'])->name('dashboardadmin')->middleware(CekLogin::class);
+Route::get('/dashboard/leader', action: [DashboardController::class, 'leader'])->name('dashboardLeader')->middleware(CekLogin::class);
 
 
 // Route::get('/production/create', [ProductionController::class, 'create'])->name(name: 'addProduction');

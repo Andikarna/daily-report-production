@@ -10,34 +10,40 @@
 
 @section('content')
 
-    <div class="container mt-5">
+    <div class="container">
         <!-- Header Section -->
-        <h3 class="text-center mb-4">Production Report {{ $production->division->name }}</h3>
+        <div class="d-flex justify-content-between align-items-center row mb-4 shadow-sm p-3 bg-white rounded">
+            <!-- Tombol Back (Left-Aligned) -->
+            <div class="col-auto">
+                <a href="{{ url()->previous() }}" class="btn btn-link text-decoration-none p-0">
+                    <i class="bi bi-arrow-left fs-4 fw-bold text-dark"></i>
+                </a>
+            </div>
 
-        <div class="d-flex justify-content-between">
-            <a href="{{ url()->previous() }}" class="btn btn-primary">
-                <i class="bi bi-arrow-left"></i> Back
-            </a>
+            <!-- Judul Laporan (Centered) -->
+            <div class="col text-center">
+                <h3 class="mb-0">Production Report {{ $production->division->name }}</h3>
+            </div>
 
-            @if ($production->status == 'Baru')
-                <form id="reject_production" action="{{ route('reject_production', [$production->id]) }}" method="POST"
-                    style="display: inline-block;">
-                    @method('PUT')
+            <!-- Reject Button (Right-Aligned) -->
+            <div class="col-auto">
+                <form id="reject_production" action="{{ route('reject_production', [$production->id]) }}" method="POST">
                     @csrf
-
+                    @method('PUT')
                     <button type="submit" class="btn btn-danger">
-                        <i class="bi bi-x-circle"></i> Reject
+                        Reject <i class="bi bi-x-circle"></i>
                     </button>
                 </form>
-            @endif
+            </div>
         </div>
+
 
 
         <form action="{{ route('create_production', [$production->id]) }}" method="POST" style="display: inline-block;">
             @csrf
 
             <!-- Card Section -->
-            <div class="card shadow mb-4 mt-4">
+            <div class="shadow-sm p-3 bg-white rounded mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <!-- Additional Info -->
@@ -58,7 +64,7 @@
             </div>
 
             <!-- Report Table -->
-            <div class="card shadow">
+            <div class="shadow-sm p-3 bg-white rounded" style="overflow-x: auto; height: 50vh;">
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered text-center">
@@ -81,11 +87,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($reportDetail as $data)
+                                {{-- @foreach ($reportDetail as $data)
                                     @php
                                         $masterProduct = MasterProductEnginering::where('ip', $data->ip)
                                             ->where('divisi_id', $production->divisi_id)
                                             ->first();
+
                                         $reportDetailLot = ReportDetailLot::where(
                                             'report_detail_id',
                                             $data->id,
@@ -121,8 +128,7 @@
                                             {{ $reportDetailLot->ok }}
                                         </td>
                                         <td>
-                                            <input type="hidden" name="percentok[]"
-                                                value="{{ $percentOfOk }}">
+                                            <input type="hidden" name="percentok[]" value="{{ $percentOfOk }}">
                                             {{ $percentOfOk }}%
                                         </td>
                                         <td>
@@ -130,8 +136,7 @@
                                             {{ $reportDetailLot->ng }}
                                         </td>
                                         <td>
-                                            <input type="hidden" name="percentng[]"
-                                                value="{{ $percentOfNg }}">
+                                            <input type="hidden" name="percentng[]" value="{{ $percentOfNg }}">
                                             {{ $percentOfNg }}%
                                         </td>
                                         <td>
@@ -144,7 +149,83 @@
                                         <input type="hidden" name="achievement[]" value="{{ $achievements }}">
 
                                     </tr>
+                                @endforeach --}}
+
+                                @foreach ($reportDetail as $data)
+                                    @php
+                                        $masterProduct = MasterProductEnginering::where('ip', $data->ip)
+                                            ->where('divisi_id', $production->divisi_id)
+                                            ->first();
+
+                                        $reportDetailLot = ReportDetailLot::where(
+                                            'report_detail_id',
+                                            $data->id,
+                                        )->first();
+
+                                        $timeInHours = $reportDetailLot->time > 0 ? $reportDetailLot->time / 60 : 0;
+
+                                        $standardOutput =
+                                            $reportDetailLot->time > 0
+                                                ? ($masterProduct->result_of_time * $reportDetailLot->time) / 60
+                                                : 0;
+
+                                        $percentOfOk =
+                                            $standardOutput > 0
+                                                ? round(($reportDetailLot->ok / $standardOutput) * 100)
+                                                : 0;
+
+                                        $total = $reportDetailLot->ok + $reportDetailLot->ng;
+
+                                        $percentOfNg = $total > 0 ? round(($reportDetailLot->ng / $total) * 100) : 0;
+
+                                        $achievements =
+                                            $standardOutput > 0 ? round(($total / $standardOutput) * 100) : 0;
+                                    @endphp
+                                    <tr>
+                                        <td>
+                                            <input type="hidden" name="ip[]" value="{{ $data->ip }}">
+                                            {{ $data->ip }}
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="goal[]"
+                                                value="{{ $masterProduct->result_of_time }}">
+                                            {{ $masterProduct->result_of_time }}
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="time[]" value="{{ $timeInHours }}">
+                                            {{ $timeInHours }}
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="standart[]" value="{{ $standardOutput }}">
+                                            {{ $standardOutput }}
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="ok[]" value="{{ $reportDetailLot->ok }}">
+                                            {{ $reportDetailLot->ok }}
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="percentok[]" value="{{ $percentOfOk }}">
+                                            {{ $percentOfOk }}%
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="ng[]" value="{{ $reportDetailLot->ng }}">
+                                            {{ $reportDetailLot->ng }}
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="percentng[]" value="{{ $percentOfNg }}">
+                                            {{ $percentOfNg }}%
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="total[]" value="{{ $total }}">
+                                            {{ $total }}
+                                        </td>
+                                        <td id="achievement-{{ $loop->index }}" data-value="{{ $achievements }}">
+                                            {{ $achievements }}%
+                                        </td>
+                                        <input type="hidden" name="achievement[]" value="{{ $achievements }}">
+                                    </tr>
                                 @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -153,14 +234,13 @@
 
             <!-- Approve and Reject Buttons -->
             <div class="text-end mt-4">
+                <!-- Tombol Reject (jika status 'Baru') -->
                 @if ($production->status == 'Baru')
                     <button type="submit" class="btn btn-success">
                         <i class="bi bi-check-circle"></i> Approve
                     </button>
                 @endif
         </form>
-
-    </div>
     </div>
 @endsection
 

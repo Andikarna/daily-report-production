@@ -3,13 +3,17 @@
 @section('title', 'Laporan Harian')
 
 @section('content')
-    <div class="card shadow rounded p-4" style="height: 90vh;">
+    <div class="bg-white shadow rounded p-4" style="height: 90vh;">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold">Laporan Operator</h2>
-            <form method="GET" id="filterForm" action="{{ route('report_approval') }}" class="d-flex gap-2 flex-wrap">
-                <select name="filter_operator" class="form-select rounded" style="max-width: 200px;"
+            <div>
+                <h4>Laporan Operator</h4>
+                <p class="text-muted">Semua laporan harian yang di lakukan operator</p>
+            </div>
+  
+            <form method="GET" id="filterForm" action="{{ route('report_approval') }}" class="d-flex justify-content-end gap-2 flex-wrap">
+                <select name="filter_operator" class="form-select rounded justify-content-end d-flex" style="max-width: 200px;"
                     onchange="document.getElementById('filterForm').submit()">
-                    <option value="">-- Filter Operator --</option>
+                    <option value="">Pilih Operator</option>
                     @foreach ($divisions as $division)
                         <option value="{{ $division->id }}"
                             {{ request('filter_operator') == $division->id ? 'selected' : '' }}>
@@ -18,7 +22,7 @@
                     @endforeach
                 </select>
 
-                <div class="input-group">
+                <div class="input-group" style="width: 400px;">
                     <input type="text" name="search" class="form-control rounded-start" placeholder="Cari Produksi..."
                         value="{{ request()->get('search') }}" oninput="document.getElementById('filterForm').submit()">
                     <button class="btn btn-outline-secondary rounded-end" type="submit">Cari</button>

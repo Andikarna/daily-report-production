@@ -3,21 +3,25 @@
 @section('title', 'Laporan Produksi')
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Laporan Produksi</h2>
-        <div class="d-flex align-items-center">
-            <!-- Search Form -->
-            <form method="GET" action="{{ route('production.index') }}" class="me-3">
-                <div class="input-group">
-                    <input type="text" id="search-input" name="search" class="form-control" placeholder="Cari Produksi..."
-                        value="{{ request()->get('search') }}">
-                    <button class="btn btn-outline-secondary" type="submit">Cari</button>
-                </div>
-            </form>
-            {{-- <button class="btn btn-primary" onclick="window.location='{{ route('addProduction') }}'">
-                <i class="bi bi-file-earmark-plus"></i> Tambah Laporan Baru
-            </button> --}}
+    <div class="row mb-4 shadow-sm p-2 bg-white rounded d-flex justify-content-between">
+        <div class="d-flex justify-content-between">
+            <div>
+                <h4>Laporan Produksi</h4>
+                <small class="text-muted">Informasi semua laporan produksi dari operator.</small>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <!-- Search Form -->
+                <form method="GET" action="{{ route('production.index') }}" class="me-3">
+                    <div class="input-group">
+                        <input type="text" id="search-input" name="search" class="form-control"
+                            placeholder="Cari Produksi..." value="{{ request()->get('search') }}">
+                        <button class="btn btn-outline-secondary" type="submit">Cari</button>
+                    </div>
+                </form>
+            </div>
         </div>
+
     </div>
 
 
@@ -34,8 +38,8 @@
     @endif
 
 
-    <div style="overflow-x: auto; white-space: nowrap;">
-        <table class="table table-bordered">
+    <div class="shadow-sm p-2 bg-white rounded mb-2" style="overflow-x: auto; white-space: nowrap; height: 70vh;">
+        <table class="table">
             <thead class="thead-light">
                 <tr>
                     <th style="white-space: nowrap; text-align: center;">No</th>

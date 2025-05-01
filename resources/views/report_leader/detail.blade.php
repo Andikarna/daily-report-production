@@ -3,9 +3,18 @@
 @section('title', 'Detail Laporan')
 
 @section('content')
-    <div class="container mt-5">
-        <h3 class="mb-4 fw-bold">Detail Laporan Produksi</h3>
+    <div class="container">
 
+        <div class="bg-white shadow py-3 px-4 gap-3 rounded mb-4 d-flex align-items-center">
+            <div class="col-auto">
+                <a href="{{ url()->previous() }}" class="btn btn-link text-decoration-none p-0">
+                    <i class="bi bi-arrow-left fs-4 fw-bold text-dark"></i>
+                </a>
+            </div>
+
+            <h5>Detail Laporan Produksi</h5>
+        </div>
+        
         <!-- Informasi Utama Report_Production -->
         <div class="card shadow-sm mb-4 rounded-3">
             <div class="card-header bg-primary text-white">
@@ -98,11 +107,6 @@
                     </table>
                 </div>
             </div>
-        </div>
-
-        <!-- Tombol Kembali -->
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('report_approval') }}" class="btn btn-secondary px-4 py-2">Kembali</a>
         </div>
     </div>
 @endsection

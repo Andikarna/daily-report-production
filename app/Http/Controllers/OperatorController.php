@@ -21,6 +21,7 @@ class OperatorController extends Controller
         $leader = User::where('role_id', 6)->get();
         $operator = User::where('role_id', 4)->get();
         $noIp = MasterProductEnginering::select('id', 'ip')
+            ->whereNot('result_of_time',"0")
             ->get()
             ->unique('ip')
             ->pluck('ip');

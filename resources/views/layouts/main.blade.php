@@ -75,8 +75,8 @@
         <ul class="nav flex-column g-3">
             @if (UserManagement::where('role_id', auth()->user()->role_id)->where('menu_id', 1)->exists())
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('dashboard/admin') ? 'text-white' : '' }}"
-                        href="{{ route('dashboardadmin') }}">Dashboard Leader</a>
+                    <a class="nav-link {{ request()->is('dashboard/leader') ? 'text-white' : '' }}"
+                        href="{{ route('dashboardLeader') }}">Dashboard Leader</a>
                 </li>
             @endif
 
@@ -93,6 +93,14 @@
                         href="{{ route('dashboardadmin') }}">Dashboard Manager</a>
                 </li>
             @endif
+
+            @if (UserManagement::where('role_id', auth()->user()->role_id)->where('menu_id', 8)->exists())
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('operator-production') ? 'text-white' : '' }}"
+                        href="{{ route('operator-production') }}">Operator Produksi</a>
+                </li>
+            @endif
+
 
             @if (UserManagement::where('role_id', auth()->user()->role_id)->where('menu_id', 4)->exists())
                 <li class="nav-item">

@@ -3,10 +3,13 @@
 @section('title', 'Laporan Bulanan Produksi')
 
 @section('content')
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Laporan Bulanan Produksi</h2>
+    <div class="container">
+        <div class="row bg-white shadow rounded py-3 px-3 mb-3">
+            <h4>Laporan Bulanan Produksi</h4>
+            <small class="text-muted">Informasi mengenai laporan dalam periode bulan.</small>
+        </div>
 
-        <div class="row  mb-3">
+        <div class="row shadow bg-white p-3 rounded mb-3">
             {{-- Form Pencarian --}}
             <div class="col-md-3">
                 <form method="GET" action="{{ route('reportMonthly') }}" id="search-form">
@@ -47,14 +50,15 @@
 
             {{-- Form Generate Report --}}
             <div class="col-md-3 d-flex align-items-end justify-content-end">
-                <form >
+                <form>
                     @csrf
                     {{-- Hidden input untuk membawa filter pencarian yang sedang aktif --}}
                     {{-- <input type="hidden" name="search" value="{{ request()->get('search') }}">
                     <input type="hidden" name="divisi" value="{{ request()->get('divisi') }}">
                     <input type="hidden" name="tanggal" value="{{ request()->get('tanggal') }}"> --}}
-                    
-                    <a href="{{ route('generate', [$bulan ?? now()->format('Y-m-d')]) }}" type="submit" class="btn btn-success w-100" target="_blank">
+
+                    <a href="{{ route('generate', [$bulan ?? now()->format('Y-m-d')]) }}" type="submit"
+                        class="btn btn-success w-100" target="_blank">
                         <i class="bi bi-file-earmark-arrow-down"></i> Cetak Laporan
                     </a>
                 </form>
@@ -62,39 +66,41 @@
 
         </div>
 
-
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th>No</th>
-                    <th>Nama IP</th>
-                    <th>Nama Leader</th>
-                    <th>Divisi</th>
-                    <th>Achievement</th>
-                    <th>Tanggal</th>
-                </tr>
-            </thead>
-            <tbody id="reportTableBody">
-                @php
-                    use App\Models\User;
-                    use App\Models\Division;
-                    use Carbon\Carbon;
-
-                    $i = ($produksi->currentPage() - 1) * $produksi->perPage();
-                @endphp
-                <!-- Data laporan produksi akan dimasukkan di sini -->
-                @foreach ($produksi as $item)
+        <div class="row bg-white shadow rounded p-3 mb-3">
+            <table class="table table-striped">
+                <thead class="thead-dark">
                     <tr>
-                        <td>{{ ++$i }}</td>
-                        <td>{{ $item->ip }}</td>
-                        <td>{{ User::where('id', $item->reportApproval->approval_id)->pluck('name')->first() }}</td>
-                        <td>{{ Division::where('id', $item->reportApproval->divisi_id)->pluck('name')->first() }}</td>
-                        <td>{{ $item->achievement }}%</td>
-                        <td>{{ \Carbon\Carbon::parse($item->date_production)->translatedFormat('l, d F Y') }}</td>
+                        <th>No</th>
+                        <th>Nama IP</th>
+                        <th>Nama Leader</th>
+                        <th>Divisi</th>
+                        <th>Achievement</th>
+                        <th>Tanggal</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="reportTableBody">
+                    @php
+                        use App\Models\User;
+                        use App\Models\Division;
+                        use Carbon\Carbon;
+
+                        $i = ($produksi->currentPage() - 1) * $produksi->perPage();
+                    @endphp
+                    <!-- Data laporan produksi akan dimasukkan di sini -->
+                    @foreach ($produksi as $item)
+                        <tr>
+                            <td>{{ ++$i }}</td>
+                            <td>{{ $item->ip }}</td>
+                            <td>{{ User::where('id', $item->reportApproval->approval_id)->pluck('name')->first() }}</td>
+                            <td>{{ Division::where('id', $item->reportApproval->divisi_id)->pluck('name')->first() }}</td>
+                            <td>{{ $item->achievement }}%</td>
+                            <td>{{ \Carbon\Carbon::parse($item->date_production)->translatedFormat('l, d F Y') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
         {{ $produksi->links('vendor.pagination.bootstrap-4') }}
         <p>Menampilkan data {{ $produksi->firstItem() }} sampai {{ $produksi->lastItem() }} dari total
             {{ $produksi->total() }} data.</p>
@@ -141,10 +147,10 @@
         color: white;
     }
 
-    .container {
+    /* .container {
         background-color: #f8f9fa;
         border-radius: 0.5rem;
         padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+    } */
 </style>

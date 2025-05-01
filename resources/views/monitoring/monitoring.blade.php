@@ -5,29 +5,36 @@
 @section('content')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <div class="container mt-4">
-        <h2 class="mb-4">Monitoring Group</h2>
+    <div class="container">
+
+        <div class="row shadow bg-white rounded p-3 mb-3">
+            <h4>Monitoring Group</h4>
+            <small class="text-muted">Informasi monitoring laporan operator.</small>
+        </div>
+
 
         {{-- Filter Bulan --}}
 
-        <form action="" method="GET">
-            @csrf
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="month" class="form-label">Pilih Bulan</label>
-                    <input type="month" name="month" id="month" class="form-control" value="{{ request('month') }}"
-                        onchange="this.form.submit()">
-                </div>
+        <div class="row shadow bg-white rounded p-3 mb-3">
+            <form action="" method="GET">
+                @csrf
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="month" class="form-label">Pilih Bulan</label>
+                        <input type="month" name="month" id="month" class="form-control"
+                            value="{{ request('month') }}" onchange="this.form.submit()">
+                    </div>
 
-                <div class="col-md-6 d-flex justify-content-end align-items-end">
-                    <label class="form-label d-block invisible">.</label>
-                    <a href="{{ route('generateDailyAchievement', [$bulan ?? "1111-11"]) }}" target="_blank"
-                        class="btn btn-success d-flex align-items-center gap-2">
-                        <i class="bi bi-file-earmark-arrow-down"></i> Generate Achievement
-                    </a>
+                    <div class="col-md-6 d-flex justify-content-end align-items-end">
+                        <label class="form-label d-block invisible">.</label>
+                        <a href="{{ route('generateDailyAchievement', [$bulan ?? '1111-11']) }}" target="_blank"
+                            class="btn btn-success d-flex align-items-center gap-2">
+                            <i class="bi bi-file-earmark-arrow-down"></i> Generate Achievement
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
 
         <div class="row">
             @php
@@ -36,7 +43,7 @@
 
             {{-- Kolom Kiri: Data Harian --}}
             <div class="col-md-8 mb-4">
-                <div class="card shadow-sm rounded">
+                <div class="row bg-white p-3 shadow-sm rounded">
                     <div class="card-body">
                         <h5 style="font-size: 16px" class="mb-3">Achievement Harian</h5>
 
@@ -76,8 +83,8 @@
             </div>
 
             {{-- Kolom Kanan: Rata-rata Per Operator --}}
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm rounded">
+            <div class="col-md-4 mb-4 ">
+                <div class="bg-white p-3 shadow-sm rounded">
                     <div class="card-body">
                         <h5 style="font-size: 14px" class="mb-3">Persentase Achievement (Bulan)</h5>
 

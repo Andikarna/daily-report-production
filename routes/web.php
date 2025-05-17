@@ -11,6 +11,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\ProductionController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -54,6 +55,10 @@ Route::get('/monitoringGroup/generate/{bulan}', action: [MonitoringController::c
 Route::get('/dashboard/admin', action: [DashboardController::class, 'admin'])->name('dashboardadmin')->middleware(CekLogin::class);
 Route::get('/dashboard/leader', action: [DashboardController::class, 'leader'])->name('dashboardLeader')->middleware(CekLogin::class);
 
+Route::get('/userManagement', [UserController::class, 'index'])->name('userSettings')->middleware(CekLogin::class);
+Route::post('/role/update-menus', [UserController::class, 'updateMenus'])->name('role.update.menus')->middleware(CekLogin::class);
+Route::post('/user/update-role', [UserController::class, 'updateRole'])->name('user.update.role')->middleware(CekLogin::class);
+Route::delete('/user/delete', [UserController::class, 'destroy'])->name('user.delete')->middleware(CekLogin::class);
 
 // Route::get('/production/create', [ProductionController::class, 'create'])->name(name: 'addProduction');
 // Route::post('/production', [ProductionController::class, 'create_report'])->name('create_production');

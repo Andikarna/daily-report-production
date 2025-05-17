@@ -26,7 +26,8 @@
             </div>
 
             <!-- Reject Button (Right-Aligned) -->
-            <div class="col-auto">
+            @if ($production->status == "Baru")
+                <div class="col-auto">
                 <form id="reject_production" action="{{ route('reject_production', [$production->id]) }}" method="POST">
                     @csrf
                     @method('PUT')
@@ -35,11 +36,11 @@
                     </button>
                 </form>
             </div>
+            @endif
+            
         </div>
 
-
-
-        <form action="{{ route('create_production', [$production->id]) }}" method="POST" style="display: inline-block;">
+        <form action="{{ route('create_production', [$production->id]) }}" method="POST" style="">
             @csrf
 
             <!-- Card Section -->

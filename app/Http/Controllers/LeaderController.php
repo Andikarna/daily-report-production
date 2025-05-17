@@ -90,6 +90,8 @@ class LeaderController extends Controller
         $approval->created_by = Auth::user()->id;
         $approval->save();
 
-        return redirect('/report-apporval');
+        //return redirect('/report-apporval');
+
+        return redirect()->route('report_approval')->with('success', 'Laporan berhasil disetujui!');
     }
 }

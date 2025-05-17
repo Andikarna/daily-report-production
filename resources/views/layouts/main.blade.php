@@ -130,6 +130,13 @@
                 </li>
             @endif
 
+            @if (UserManagement::where('role_id', auth()->user()->role_id)->where('menu_id', 12)->exists())
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('userManagement') ? 'text-white' : '' }}"
+                        href="{{ route('userSettings') }}">User Management</a>
+                </li>
+            @endif
+
             <li class="nav-item mt-3">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf

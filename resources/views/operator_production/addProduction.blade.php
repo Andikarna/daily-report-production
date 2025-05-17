@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Laporan Operator Produksi</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,8 +25,8 @@
                         <label for="division" class="form-label">Divisi</label>
                         <select class="form-select" id="division" name="division" required>
                             <option selected disabled>Pilih Divisi</option>
-                            @foreach ($division as $data )
-                                <option value="{{ $data->id }}">{{ $data->name }}</option>  
+                            @foreach ($division as $data)
+                                <option value="{{ $data->id }}">{{ $data->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -47,7 +48,7 @@
 
                     <div class="mb-3">
                         <label for="name" class="form-label">Nama</label>
-                        <select class="form-select" id="name" name="name"  required>
+                        <select class="form-select" id="name" name="name" required>
                             <option selected disabled>Pilih Operator</option>
                             @foreach ($operator as $data)
                                 <option value="{{ $data->id }}">{{ $data->name }}</option>
@@ -74,11 +75,32 @@
                     </div>
 
                     <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-success">Simpan Laporan</button>
+                        <button type="submit" class="btn btn-success" id="save-report">Simpan Laporan</button>
                     </div>
-                </form>
+                
             </div>
         </div>
+
+        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="successModalLabel">Berhasil</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="{{ asset('assets/images/success.jpg') }}" style="width: 300px; height: 300px;" alt="Success" class="mb-3">
+                        <p class="mb-0">Data berhasil disimpan!</p>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </form>
+
     </div>
 
     <!-- Bootstrap JS Bundle -->
@@ -179,7 +201,7 @@
 
     document.getElementById('add-ip').addEventListener('click', function() {
         const container = document.getElementById('produksi_container');
-        ipCount++; 
+        ipCount++;
 
 
         const options = noIpData.map(data => `<option value="${data}">${data}</option>`).join('');
@@ -208,7 +230,7 @@
         </div>
     </div>`;
 
-        
+
         container.insertAdjacentHTML('beforeend', newStage);
 
     });
@@ -246,12 +268,12 @@
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <label for="ok" class="form-label">OK</label>
-                        <input type="number" class="form-control" id="ok[]" name="ok[]" required>
+                        <input type="number" class="form-control" id="ok[]" name="ok[]" oninput="calculateTotal(this)" required>
                     </div>
 
                     <div class="col-md-2">
                         <label for="ng" class="form-label">NG</label>
-                        <input type="number" class="form-control" id="ng[]" name="ng[]" required>
+                        <input type="number" class="form-control" id="ng[]" name="ng[]" oninput="calculateTotal(this)" required>
                     </div>
 
                     <div class="col-md-3">
@@ -261,7 +283,7 @@
 
                     <div class="col-md-4">
                         <label for="total" class="form-label">Total</label>
-                        <input type="number" class="form-control" id="total[]" name="total[]" required>
+                        <input type="number" class="form-control" id="total[]" name="total[]" readonly>
                     </div>
                 </div>
 
@@ -313,5 +335,66 @@
         }
     });
 </script>
+
+<script>
+    function calculateTotal(element) {
+        // Dapatkan elemen parent (baris yang sama)
+        const row = element.closest('.row');
+
+        // Ambil nilai OK dan NG
+        const okInput = row.querySelector('input[name="ok[]"]');
+        const ngInput = row.querySelector('input[name="ng[]"]');
+        const totalInput = row.querySelector('input[name="total[]"]');
+
+        const okValue = parseInt(okInput.value) || 0; // Default ke 0 jika kosong
+        const ngValue = parseInt(ngInput.value) || 0;
+
+        // Hitung total dan masukkan ke kolom Total
+        totalInput.value = okValue + ngValue;
+    }
+</script>
+
+<script>
+
+    document.getElementById('save-report').addEventListener('click', function (event) {
+    event.preventDefault(); // Mencegah pengiriman form default
+
+    // Ambil elemen form
+    const form = document.querySelector('form');
+    const formData = new FormData(form);
+
+    // Kirim data menggunakan Fetch API
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Tampilkan modal jika berhasil
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+
+            document.getElementById('successModal').addEventListener('hidden.bs.modal', function () {
+                window.location.reload(); // Reload halaman
+            });
+
+            // Reset form jika perlu
+            form.reset();
+        } else {
+            alert('Terjadi kesalahan: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat menyimpan data!');
+    });
+});
+</script>
+
+
 
 </html>

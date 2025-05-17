@@ -118,7 +118,7 @@ class OperatorController extends Controller
             
         }
 
-
-        return redirect('/production/operator-produksi');
+        return response()->json(['success' => true, 'message' => 'Data berhasil disimpan!']);
+        //return redirect('/production/operator-produksi');
     }
 }

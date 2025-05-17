@@ -10,7 +10,7 @@
                     <i class="bi bi-arrow-left fs-4 fw-bold text-dark"></i>
                 </a>
             </div>
-            
+
             <h5>Detail Laporan Produksi</h5>
         </div>
 
@@ -89,17 +89,47 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-end align-items-center">
-          <form action="{{ route('report_approve', ['id' => $report->id]) }}" method="POST">
-              @csrf
-              <button type="submit" class="btn btn-success">Approve</button>
-          </form>
-      </div>
+        <form id="approveForm" action="{{ route('report_approve', ['id' => $report->id]) }}" method="POST">
+            @csrf
+            <div class="d-flex justify-content-end align-items-center">
+                <button type="button" class="btn btn-success" id="approveButton">Approve</button>
+            </div>
+        </form>
+
+        <div class="modal fade" id="verifyModal" tabindex="-1" aria-labelledby="verifyModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="verifyModalLabel">Konfirmasi Approve</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="{{ asset('assets/images/verifikasi.jpg') }}" alt="verifikasi"
+                            style="width: 300px; height: 300px;">
+                        <p>Apakah Anda yakin ingin approve laporan ini?</p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" id="confirmApprove" class="btn btn-success">Ya, Approve</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
 @section('scripts')
     <script>
-        // Tambahkan script jika diperlukan
+        document.getElementById('approveButton').addEventListener('click', function() {
+            // Tampilkan modal verifikasi
+            const verifyModal = new bootstrap.Modal(document.getElementById('verifyModal'));
+            verifyModal.show();
+        });
+
+        document.getElementById('confirmApprove').addEventListener('click', function() {
+            document.getElementById('approveForm').submit();
+        });
     </script>
 @endsection

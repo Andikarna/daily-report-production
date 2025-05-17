@@ -47,7 +47,7 @@ class ProductionController extends Controller
 
         $reportDetail = ReportDetailProduction::where('report_id', $production->report_id)->get();
 
-        return view('admin.updateProduction', compact('production', 'reportDetail'));
+        return view('admin.updateProduction', compact('production', 'reportDetail',));
     }
 
     public function reject(Request $request, $id)

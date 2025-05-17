@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class UserManagement extends Model
+class UserMenu extends Model
 {
     use HasFactory;
 
-    public $table = 'user_management';
+    public $table = 'user_menu';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'role_id',
-        'menu_id',
+        'name'
     ];
 }

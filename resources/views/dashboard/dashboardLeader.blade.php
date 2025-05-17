@@ -68,15 +68,15 @@
                 datasets: [{
                     label: 'Total Pencapaian',
                     data: data,
-                    backgroundColor: 'rgba(0, 184, 148, 0.2)', // Warna area di bawah garis
-                    borderColor: '#00b894', // Warna garis
+                    backgroundColor: 'rgba(0, 184, 148, 0.2)',
+                    borderColor: '#00b894',
                     borderWidth: 2,
                     pointBackgroundColor: '#0984e3',
                     pointBorderColor: '#fdcb6e',
                     pointBorderWidth: 2,
                     pointRadius: 5,
-                    tension: 0.5, // Nilai ketegangan untuk membuat gelombang
-                    fill: true // Mengisi area di bawah garis
+                    tension: 0.5,
+                    fill: true
                 }]
             },
             options: {
@@ -126,8 +126,8 @@
                     }
                 },
                 animation: {
-                    duration: 1000, // Durasi animasi (ms)
-                    easing: 'easeInOutQuart' // Gaya animasi
+                    duration: 1000,
+                    easing: 'easeInOutQuart'
                 }
             }
         });

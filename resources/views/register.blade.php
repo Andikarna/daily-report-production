@@ -12,8 +12,47 @@
 
     <style>
         body {
-            background: #f2f6fc;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .custom-form {
+            max-width: 400px;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #495057;
+        }
+
+        .form-group i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+
+        .form-control {
+            padding-left: 40px;
+        }
+
+        .btn-primary {
+            background: #0d6efd;
+            border: none;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border-radius: 8px;
+        }
+
+        .btn-primary:hover {
+            background: #0b5ed7;
         }
 
         .custom-form {
@@ -54,6 +93,18 @@
         .btn-primary:hover {
             background-color: #327ba8;
         }
+
+        .form-select {
+            font-size: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
+        }
     </style>
 </head>
 
@@ -74,27 +125,42 @@
                 </div>
             @endif
 
-            <div class="form-group position-relative">
-                <i class="fa fa-user"></i>
-                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" placeholder="Full Name" required>
+            <div class="mb-3 position-relative ">
+                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
+                    placeholder="Full Name" required>
             </div>
 
-            <div class="form-group position-relative">
-                <i class="fa fa-envelope"></i>
-                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Email Address" required>
+            <div class="mb-3 position-relative">
+                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}"
+                    placeholder="Email Address" required>
             </div>
 
-            <div class="form-group position-relative">
-                <i class="fa fa-lock"></i>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+            <div class="mb-3 position-relative">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                    required>
             </div>
 
-            <div class="form-group position-relative">
-                <i class="fa fa-lock"></i>
-                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" required>
+            <div class="mb-3 position-relative">
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
+                    placeholder="Confirm Password" required>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            @php
+                use App\Models\UserRole;
+                $role = UserRole::all();
+            @endphp
+
+            <div class="mb-3">
+                <label for="role" class="form-label muted" >Role</label>
+                <select class="form-select w-100" id="role" name="role" required>
+                    <option value="" disabled selected>Select Role</option>
+                    @foreach ($role as $data )
+                         <option value="{{ $data->id }}">{{ $data->role }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Register</button>
         </form>
     </div>
 
